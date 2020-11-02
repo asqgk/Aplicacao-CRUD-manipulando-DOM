@@ -1,0 +1,13 @@
+{
+    "java.project.referencedLibraries": {
+        "include": [
+            "lib/**/*.jar",
+            "c:\\Users\\bruno.zampirom\\Downloads\\resolver-20050927.jar"
+        ],
+        "exclude": [
+            "c:\\Users\\bruno.zampirom\\Downloads\\jar_files (3)\\commons-lang-2.6.jar",
+            "c:\\Users\\bruno.zampirom\\Downloads\\jar_files (3)\\jdom-1.0.jar",
+            "c:\\Users\\bruno.zampirom\\Downloads\\jar_files (3)\\openehr-ap-1.0.71.jar"
+        ]
+    }
+}

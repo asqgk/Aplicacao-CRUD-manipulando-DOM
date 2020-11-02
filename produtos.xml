@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<produtos>
+    <produto id="1">
+        <codigo_barras>12345</codigo_barras>
+        <descricao>produto teste</descricao>
+        <estoque_atual>100</estoque_atual>
+        <preco_unitario>10</preco_unitario>
+    </produto>
+    <!--Arquivo gerado por CadastraMercadoria.java-->
+    <produto id="2">
+        <codigo_barras>1231242141241241241</codigo_barras>
+        <descricao>Banana</descricao>
+        <estoque_atual>32</estoque_atual>
+        <preco_unitario>4.50</preco_unitario>
+    </produto>
+    <!--Arquivo gerado por CadastraMercadoria.java-->
+</produtos>
