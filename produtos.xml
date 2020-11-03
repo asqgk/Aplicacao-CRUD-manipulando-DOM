@@ -1,17 +1,36 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <produtos>
     <produto id="1">
-        <codigo_barras>12345</codigo_barras>
-        <descricao>produto teste</descricao>
-        <estoque_atual>100</estoque_atual>
-        <preco_unitario>10</preco_unitario>
+        <codigo_barras>312321312312121</codigo_barras>
+        <descricao>Caderno</descricao>
+        <quantidade>4</quantidade>
+        <preco_unitario>9.90</preco_unitario>
+        <categoria>
+            <descricao>Escolar</descricao>
+            <codigo>6</codigo>
+        </categoria>
     </produto>
     <!--Arquivo gerado por CadastraMercadoria.java-->
     <produto id="2">
-        <codigo_barras>1231242141241241241</codigo_barras>
+        <codigo_barras>3123214412</codigo_barras>
         <descricao>Banana</descricao>
-        <estoque_atual>32</estoque_atual>
-        <preco_unitario>4.50</preco_unitario>
+        <quantidade>3</quantidade>
+        <preco_unitario>2.50</preco_unitario>
+        <categoria>
+            <descricao>Frutas</descricao>
+            <codigo>3</codigo>
+        </categoria>
+    </produto>
+    <!--Arquivo gerado por CadastraMercadoria.java-->
+    <produto id="3">
+        <codigo_barras>1212414124122141</codigo_barras>
+        <descricao>Mouse</descricao>
+        <quantidade>3</quantidade>
+        <preco_unitario>12.34</preco_unitario>
+        <categoria>
+            <descricao>Eletronicos</descricao>
+            <codigo>2</codigo>
+        </categoria>
     </produto>
     <!--Arquivo gerado por CadastraMercadoria.java-->
 </produtos>

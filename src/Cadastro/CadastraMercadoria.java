@@ -21,7 +21,7 @@ public class CadastraMercadoria {
             DocumentBuilder builder = b.newDocumentBuilder();
             Document myDoc = builder.parse("produtos.xml");
             Scanner leitura = new Scanner(System.in);
-            int entrada;
+            String entrada;
             boolean loop = true; 
 
             while(loop) {
@@ -31,8 +31,8 @@ public class CadastraMercadoria {
                 System.out.println("4 - Remover um produto");
                 System.out.println("5 - Atualizar um produto");
                 System.out.println("6 - Sair");
-                entrada = leitura.nextInt();
-                switch (entrada) {
+                entrada = leitura.nextLine();
+                switch (Integer.parseInt(entrada)) {
                     case 1:
                         consultaProdutos(myDoc, leitura);
                         break;
@@ -73,7 +73,7 @@ public class CadastraMercadoria {
     }
 
     private static void consultaProdutos(Document doc, Scanner leitura) throws IOException, TransformerException {
-        NodeList nodos, nodo1;
+        NodeList nodos, nodo1, nodo2;
         NamedNodeMap nodeID;
         int countProdutos = 0;
         System.out.println("-> Lista de produtos:");
@@ -96,24 +96,42 @@ public class CadastraMercadoria {
                 if (nodo1.item(j).getNodeName().equals("preco_unitario")){
                     System.out.println("---> Preco unitario: " + nodo1.item(j).getFirstChild().getNodeValue());
                 }
+                if (nodo1.item(j).getNodeName().equals("categoria")){
+                    nodo2 = nodo1.item(j).getChildNodes();
+                    System.out.println("---> Categoria");
+                    for (int k = 0; k < nodo2.getLength(); k++) {
+                        if (nodo2.item(k).getNodeName().equals("descricao")){
+                            System.out.println("----> Descricao da categoria: " + nodo2.item(k).getFirstChild().getNodeValue());
+                        }
+                        if (nodo2.item(k).getNodeName().equals("codigo")){
+                            System.out.println("----> Codigo da categoria: " + nodo2.item(k).getFirstChild().getNodeValue());
+                        }
+                    }
+                }
             }
         }
         System.out.println("\n-> Total de produtos encontrados: " + countProdutos);
     }
 
     private static void consultaProduto(Document doc, Scanner leitura) throws IOException, TransformerException {
-        NodeList nodos, nodo1;
+        NodeList nodos, nodo1, nodo2;
         NamedNodeMap nodeID;
         String buscaID, idIteracao;
-        Boolean encontrou = false;
         System.out.print("-> Informe o id do produto: ");
         buscaID = leitura.nextLine();
         nodos = doc.getElementsByTagName("produto");
+
+        int pos = returnProdutoPosition(doc, buscaID);
+        // teste se localizou produto
+        if (pos == -1){
+            System.out.println("--> Nenhum produto encontrado para o ID: " + buscaID);
+            return;
+        }
+
         for (int i = 0; i < nodos.getLength(); i++) {
             nodeID = nodos.item(i).getAttributes();
             idIteracao = nodeID.item(0).getNodeValue().toString();
             if(buscaID.equals(idIteracao)) {
-                encontrou = true;
                 System.out.println("--> ID: " + buscaID);
                 nodo1 = nodos.item(i).getChildNodes();
                 for (int j = 0; j < nodo1.getLength(); j++) {
@@ -129,11 +147,21 @@ public class CadastraMercadoria {
                     if (nodo1.item(j).getNodeName().equals("preco_unitario")){
                         System.out.println("---> Preco unitario: " + nodo1.item(j).getFirstChild().getNodeValue());
                     }
+                    if (nodo1.item(j).getNodeName().equals("categoria")){
+                        nodo2 = nodo1.item(j).getChildNodes();
+                        System.out.println("---> Categoria");
+                        for (int k = 0; k < nodo2.getLength(); k++) {
+                            if (nodo2.item(k).getNodeName().equals("descricao")){
+                                System.out.println("----> Descricao da categoria: " + nodo2.item(k).getFirstChild().getNodeValue());
+                            }
+                            if (nodo2.item(k).getNodeName().equals("codigo")){
+                                System.out.println("----> Codigo da categoria: " + nodo2.item(k).getFirstChild().getNodeValue());
+                            }
+                        }
+                    }
                 }
-                break;
             }
         }
-        if (!encontrou) System.out.println("--> Nenhum produto encontrado!!"); 
     }
 
     private static void adicionarProduto(Document doc, Scanner leitura) throws IOException, TransformerException {
@@ -153,7 +181,7 @@ public class CadastraMercadoria {
             System.out.println("-> Já existe um produto cadastrado com o ID informado!");
             return;
         }
-        produto.setAttribute("id", leitura.nextLine());
+        produto.setAttribute("id", id);
         
         // define subelementos de produto
         codigo_barras = doc.createElement("codigo_barras"); 
@@ -180,11 +208,11 @@ public class CadastraMercadoria {
         categoria = doc.createElement("categoria"); 
         
         descricao_categoria = doc.createElement("descricao");
-        System.out.print("Informe a qual categoria o produto pertence: ");
+        System.out.print("-> Informe a qual categoria o produto pertence: ");
         descricao_categoria.appendChild(doc.createTextNode(leitura.nextLine()));
         
         codigo_categoria = doc.createElement("codigo");
-        System.out.print("Informe o código da categoria: ");
+        System.out.print("-> Informe o código da categoria: ");
         codigo_categoria.appendChild(doc.createTextNode(leitura.nextLine()));
         
         categoria.appendChild(descricao_categoria);
