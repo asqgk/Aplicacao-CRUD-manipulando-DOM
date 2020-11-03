@@ -21,7 +21,7 @@ public class CadastraMercadoria {
             DocumentBuilder builder = b.newDocumentBuilder();
             Document myDoc = builder.parse("produtos.xml");
             Scanner leitura = new Scanner(System.in);
-            String entrada;
+            int entrada;
             boolean loop = true; 
 
             while(loop) {
@@ -31,25 +31,26 @@ public class CadastraMercadoria {
                 System.out.println("4 - Remover um produto");
                 System.out.println("5 - Atualizar um produto");
                 System.out.println("6 - Sair");
-                entrada = leitura.nextLine();
+                entrada = leitura.nextInt();
                 switch (entrada) {
-                    case "1":
+                    case 1:
                         consultaProdutos(myDoc, leitura);
                         break;
-                    case "2":
+                    case 2:
                         consultaProduto(myDoc, leitura);
                         break;
-                    case "3":
-                        adiciona(myDoc, leitura);
+                    case 3:
+                        adicionarProduto(myDoc, leitura);
                         break;
-                    case "4":
-                        remove(myDoc, leitura);
+                    case 4:
+                        removerProduto(myDoc, leitura);
                         break;
-                    case "5":
+                    case 5:
                         break;
-                    case "6":
+                    case 6:
                         loop = false;
                         break;
+                        
                     default:
                         break;
                 }
@@ -63,7 +64,7 @@ public class CadastraMercadoria {
     private static Integer returnProdutoPosition(Document doc, String id) throws IOException, TransformerException {
         int pos = -1;
         NodeList nodos = doc.getDocumentElement().getChildNodes();
-        //localiza posicao do cliente desejado no documento
+        //localiza posicao do produto desejado no documento
         for (int i = 0; i < nodos.getLength(); i++) {
             if (nodos.item(i).getAttributes() != null && nodos.item(i).getAttributes().item(0).getNodeValue().equals(id))
                 pos = i;
@@ -89,8 +90,8 @@ public class CadastraMercadoria {
                 if (nodo1.item(j).getNodeName().equals("descricao")){
                     System.out.println("---> Descricao: " + nodo1.item(j).getFirstChild().getNodeValue());
                 }
-                if (nodo1.item(j).getNodeName().equals("estoque_atual")){
-                    System.out.println("---> Estoque: " + nodo1.item(j).getFirstChild().getNodeValue());
+                if (nodo1.item(j).getNodeName().equals("quantidade")){
+                    System.out.println("---> Quantidade: " + nodo1.item(j).getFirstChild().getNodeValue());
                 }
                 if (nodo1.item(j).getNodeName().equals("preco_unitario")){
                     System.out.println("---> Preco unitario: " + nodo1.item(j).getFirstChild().getNodeValue());
@@ -122,8 +123,8 @@ public class CadastraMercadoria {
                     if (nodo1.item(j).getNodeName().equals("descricao")){
                         System.out.println("---> Descricao: " + nodo1.item(j).getFirstChild().getNodeValue());
                     }
-                    if (nodo1.item(j).getNodeName().equals("estoque_atual")){
-                        System.out.println("---> Estoque: " + nodo1.item(j).getFirstChild().getNodeValue());
+                    if (nodo1.item(j).getNodeName().equals("quantidade")){
+                        System.out.println("---> Quantidade: " + nodo1.item(j).getFirstChild().getNodeValue());
                     }
                     if (nodo1.item(j).getNodeName().equals("preco_unitario")){
                         System.out.println("---> Preco unitario: " + nodo1.item(j).getFirstChild().getNodeValue());
@@ -135,8 +136,9 @@ public class CadastraMercadoria {
         if (!encontrou) System.out.println("--> Nenhum produto encontrado!!"); 
     }
 
-    private static void adiciona(Document doc, Scanner leitura) throws IOException, TransformerException {
-        Element produtos, produto, codigo_barras, descricao, estoque_atual, preco_unitario;
+    private static void adicionarProduto(Document doc, Scanner leitura) throws IOException, TransformerException {
+        Element produtos, produto, codigo_barras, descricao_produto, quantidade, preco_unitario, 
+                categoria, descricao_categoria, codigo_categoria;
 
         //obtem referencia do elemento produtos
         produtos = (Element) doc.getElementsByTagName("produtos").item(0);
@@ -151,7 +153,7 @@ public class CadastraMercadoria {
             System.out.println("-> Já existe um produto cadastrado com o ID informado!");
             return;
         }
-        produto.setAttribute("id", id);
+        produto.setAttribute("id", leitura.nextLine());
         
         // define subelementos de produto
         codigo_barras = doc.createElement("codigo_barras"); 
@@ -159,57 +161,54 @@ public class CadastraMercadoria {
         codigo_barras.appendChild(doc.createTextNode(leitura.nextLine()));
         produto.appendChild(codigo_barras);
         
-        descricao = doc.createElement("descricao");        
+        descricao_produto = doc.createElement("descricao");        
         System.out.print("-> Informe a descrição do produto: ");
-        descricao.appendChild(doc.createTextNode(leitura.nextLine()));
-        produto.appendChild(descricao);
+        descricao_produto.appendChild(doc.createTextNode(leitura.nextLine()));
+        produto.appendChild(descricao_produto);
         
-        estoque_atual = doc.createElement("estoque_atual");
-        System.out.print("-> Informe o estoque atual do produto: ");
-        estoque_atual.appendChild(doc.createTextNode(leitura.nextLine()));
-        produto.appendChild(estoque_atual);
+        quantidade = doc.createElement("quantidade");
+        System.out.print("-> Informe a quantidade do produto: ");
+        quantidade.appendChild(doc.createTextNode(leitura.nextLine()));
+        produto.appendChild(quantidade);
         
         preco_unitario = doc.createElement("preco_unitario");
         System.out.print("-> Informe o preço unitário do produto: ");
         preco_unitario.appendChild(doc.createTextNode(leitura.nextLine()));
         produto.appendChild(preco_unitario);
-
-        /*
-        //define elemento endereco e subelementos
-        endereco = doc.createElement("endereco");
-        logradouro = doc.createElement("logradouro");
-        System.out.print("Informe o logradouro: ");
-        logradouro.appendChild(doc.createTextNode(leitura.nextLine()));
-        cidade = doc.createElement("cidade");
-        System.out.print("Informe a cidade: ");
-        cidade.appendChild(doc.createTextNode(leitura.nextLine()));
-        estado = doc.createElement("estado");
-        System.out.print("Informe o estado: ");
-        estado.appendChild(doc.createTextNode(leitura.nextLine()));
-        endereco.appendChild(logradouro);
-        endereco.appendChild(cidade);
-        endereco.appendChild(estado);
-        cliente.appendChild(endereco);
-        */
+        
+        //define o elemento categoria e seus subelementos
+        categoria = doc.createElement("categoria"); 
+        
+        descricao_categoria = doc.createElement("descricao");
+        System.out.print("Informe a qual categoria o produto pertence: ");
+        descricao_categoria.appendChild(doc.createTextNode(leitura.nextLine()));
+        
+        codigo_categoria = doc.createElement("codigo");
+        System.out.print("Informe o código da categoria: ");
+        codigo_categoria.appendChild(doc.createTextNode(leitura.nextLine()));
+        
+        categoria.appendChild(descricao_categoria);
+        categoria.appendChild(codigo_categoria);
+        produto.appendChild(categoria);
 
         //adiciona produto
         produtos.appendChild(produto);
         
         produtos.appendChild(doc.createComment("Arquivo gerado por CadastraMercadoria.java"));
-
+        
         //serializa documento para arquivo
         XMLSerializer serializer = new XMLSerializer(
                 new FileOutputStream("produtos.xml"), new OutputFormat(doc, "iso-8859-1", true));
         serializer.serialize(doc);
     }
 
-    private static void remove(Document doc, Scanner leitura) throws IOException, TransformerException {
+    private static void removerProduto(Document doc, Scanner leitura) throws IOException, TransformerException {
 
         System.out.print("-> Informe o ID do produto a remover: ");
         String numero = leitura.nextLine();
 
         int pos = returnProdutoPosition(doc, numero);
-        // teste se localizou cliente
+        // teste se localizou produto
         if (pos == -1){
             System.out.println("-> Nenhum produto encontrado!");
             return;
