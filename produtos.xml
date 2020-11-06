@@ -1,24 +1,32 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <produtos>
     <produto id="1">
-        <codigo_barras>312321312312121</codigo_barras>
+        <codigo_barras>221312321412421421124</codigo_barras>
         <descricao>Caderno</descricao>
-        <quantidade>4</quantidade>
-        <preco_unitario>9.90</preco_unitario>
+        <quantidade>3</quantidade>
+        <preco_unitario>8.90</preco_unitario>
         <categoria>
             <descricao>Escolar</descricao>
-            <codigo>6</codigo>
+            <codigo>3</codigo>
+            <subcategoria>
+                <descricao>NA</descricao>
+                <codigo>4</codigo>
+            </subcategoria>
         </categoria>
     </produto>
     <!--Arquivo gerado por CadastraMercadoria.java-->
     <produto id="2">
-        <codigo_barras>3123214412</codigo_barras>
+        <codigo_barras>312214124124</codigo_barras>
         <descricao>Banana</descricao>
-        <quantidade>3</quantidade>
-        <preco_unitario>2.50</preco_unitario>
+        <quantidade>2</quantidade>
+        <preco_unitario>3.0</preco_unitario>
         <categoria>
-            <descricao>Frutas</descricao>
-            <codigo>3</codigo>
+            <subcategoria>
+                <descricao>Frutas</descricao>
+                <codigo>84</codigo>
+            </subcategoria>
+            <descricao>Alimento</descricao>
+            <codigo>1</codigo>
         </categoria>
     </produto>
     <!--Arquivo gerado por CadastraMercadoria.java-->
@@ -28,6 +36,21 @@
         <quantidade>3</quantidade>
         <preco_unitario>12.34</preco_unitario>
         <categoria>
+            <descricao>Eletronicos</descricao>
+            <codigo>2</codigo>
+        </categoria>
+    </produto>
+    <!--Arquivo gerado por CadastraMercadoria.java-->
+    <produto id="4">
+        <codigo_barras>213124124124211</codigo_barras>
+        <descricao>Teclado</descricao>
+        <quantidade>2</quantidade>
+        <preco_unitario>32.23</preco_unitario>
+        <categoria>
+            <subcategoria>
+                <descricao>Computador</descricao>
+                <codigo>98</codigo>
+            </subcategoria>
             <descricao>Eletronicos</descricao>
             <codigo>2</codigo>
         </categoria>
