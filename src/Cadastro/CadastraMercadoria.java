@@ -46,6 +46,7 @@ public class CadastraMercadoria {
                         removerProduto(myDoc, leitura);
                         break;
                     case 5:
+                        modificarProduto(myDoc);
                         break;
                     case 6:
                         loop = false;
@@ -73,7 +74,7 @@ public class CadastraMercadoria {
     }
 
     private static void consultaProdutos(Document doc, Scanner leitura) throws IOException, TransformerException {
-        NodeList nodos, nodo1;
+        NodeList nodos, nodo1, nodo2;
         NamedNodeMap nodeID;
         int countProdutos = 0;
         System.out.println("-> Lista de produtos:");
@@ -96,24 +97,42 @@ public class CadastraMercadoria {
                 if (nodo1.item(j).getNodeName().equals("preco_unitario")){
                     System.out.println("---> Preco unitario: " + nodo1.item(j).getFirstChild().getNodeValue());
                 }
+                if (nodo1.item(j).getNodeName().equals("categoria")){
+                    nodo2 = nodo1.item(j).getChildNodes();
+                    System.out.println("---> Categoria");
+                    for (int k = 0; k < nodo2.getLength(); k++) {
+                        if (nodo2.item(k).getNodeName().equals("descricao")){
+                            System.out.println("----> Descricao da categoria: " + nodo2.item(k).getFirstChild().getNodeValue());
+                        }
+                        if (nodo2.item(k).getNodeName().equals("codigo")){
+                            System.out.println("----> Codigo da categoria: " + nodo2.item(k).getFirstChild().getNodeValue());
+                        }
+                    }
+                }
             }
         }
         System.out.println("\n-> Total de produtos encontrados: " + countProdutos);
     }
 
     private static void consultaProduto(Document doc, Scanner leitura) throws IOException, TransformerException {
-        NodeList nodos, nodo1;
+        NodeList nodos, nodo1, nodo2;
         NamedNodeMap nodeID;
         String buscaID, idIteracao;
-        Boolean encontrou = false;
         System.out.print("-> Informe o id do produto: ");
         buscaID = leitura.nextLine();
         nodos = doc.getElementsByTagName("produto");
+
+        int pos = returnProdutoPosition(doc, buscaID);
+        // teste se localizou produto
+        if (pos == -1){
+            System.out.println("--> Nenhum produto encontrado para o ID: " + buscaID);
+            return;
+        }
+
         for (int i = 0; i < nodos.getLength(); i++) {
             nodeID = nodos.item(i).getAttributes();
             idIteracao = nodeID.item(0).getNodeValue().toString();
             if(buscaID.equals(idIteracao)) {
-                encontrou = true;
                 System.out.println("--> ID: " + buscaID);
                 nodo1 = nodos.item(i).getChildNodes();
                 for (int j = 0; j < nodo1.getLength(); j++) {
@@ -129,16 +148,25 @@ public class CadastraMercadoria {
                     if (nodo1.item(j).getNodeName().equals("preco_unitario")){
                         System.out.println("---> Preco unitario: " + nodo1.item(j).getFirstChild().getNodeValue());
                     }
+                    if (nodo1.item(j).getNodeName().equals("categoria")){
+                        nodo2 = nodo1.item(j).getChildNodes();
+                        System.out.println("---> Categoria");
+                        for (int k = 0; k < nodo2.getLength(); k++) {
+                            if (nodo2.item(k).getNodeName().equals("descricao")){
+                                System.out.println("----> Descricao da categoria: " + nodo2.item(k).getFirstChild().getNodeValue());
+                            }
+                            if (nodo2.item(k).getNodeName().equals("codigo")){
+                                System.out.println("----> Codigo da categoria: " + nodo2.item(k).getFirstChild().getNodeValue());
+                            }
+                        }
+                    }
                 }
-                break;
             }
         }
-        if (!encontrou) System.out.println("--> Nenhum produto encontrado!!"); 
     }
 
     private static void adicionarProduto(Document doc, Scanner leitura) throws IOException, TransformerException {
-        Element produtos, produto, codigo_barras, descricao_produto, quantidade, preco_unitario, 
-                categoria, descricao_categoria, codigo_categoria;
+        Element produtos, produto, codigo_barras, descricao_produto, quantidade, preco_unitario, categoria, descricao_categoria, codigo_categoria;
 
         //obtem referencia do elemento produtos
         produtos = (Element) doc.getElementsByTagName("produtos").item(0);
@@ -180,11 +208,11 @@ public class CadastraMercadoria {
         categoria = doc.createElement("categoria"); 
         
         descricao_categoria = doc.createElement("descricao");
-        System.out.print("Informe a qual categoria o produto pertence: ");
+        System.out.print("-> Informe a qual categoria o produto pertence: ");
         descricao_categoria.appendChild(doc.createTextNode(leitura.nextLine()));
         
         codigo_categoria = doc.createElement("codigo");
-        System.out.print("Informe o código da categoria: ");
+        System.out.print("-> Informe o código da categoria: ");
         codigo_categoria.appendChild(doc.createTextNode(leitura.nextLine()));
         
         categoria.appendChild(descricao_categoria);
@@ -204,16 +232,16 @@ public class CadastraMercadoria {
 
     private static void removerProduto(Document doc, Scanner leitura) throws IOException, TransformerException {
 
-        System.out.print("-> Informe o ID do produto a remover: ");
-        String numero = leitura.nextLine();
+        System.out.print("-> Informe o ID do produto: ");
+        String id = leitura.nextLine();
 
-        int pos = returnProdutoPosition(doc, numero);
+        int pos = returnProdutoPosition(doc, id);
         // teste se localizou produto
         if (pos == -1){
             System.out.println("-> Nenhum produto encontrado!");
             return;
         }
-
+          
         // obtem referencia do elemento a excluir
         Element excluir = (Element) doc.getDocumentElement().getChildNodes().item(pos);
 
@@ -232,5 +260,50 @@ public class CadastraMercadoria {
                 new FileOutputStream("produtos.xml"), new OutputFormat(doc, "iso-8859-1", true));
         serializer.serialize(doc);
         System.out.println("-> Produto removido com sucesso");
+    }
+
+    private static void modificarProduto(Document doc) throws TransformerException, IOException{
+        Scanner leitura = new Scanner(System.in);
+        int pos = -1;
+
+        System.out.print("Informe o ID do produto a ser modificado: ");
+        String id = leitura.nextLine();
+
+        //obtem lista de nodos produto
+        NodeList nl = doc.getElementsByTagName("produto");
+
+        //localiza posicao do produto desejado no documento
+        for(int i=0; i<nl.getLength(); i++){
+            if (nl.item(i).getAttributes().item(0).getNodeValue().equals(id))
+                pos=i;
+        }
+
+        // teste se localizou produto
+        if (pos == -1){
+            System.out.println("Produto nao localizado!");
+            return;
+        }
+
+        System.out.print("Informe o codigo de barras do produto: ");
+        doc.getElementsByTagName("codigo_barras").item(pos).setTextContent(leitura.nextLine());
+
+        System.out.print("Informe a descrição do produto: ");
+        doc.getElementsByTagName("descricao").item(pos).setTextContent(leitura.nextLine());
+
+        System.out.print("Informe a quantidade do produto: ");
+        doc.getElementsByTagName("quantidade").item(pos).setTextContent(leitura.nextLine());
+
+        System.out.print("Informe o preço unitário do produto: ");
+        doc.getElementsByTagName("preco_unitario").item(pos).setTextContent(leitura.nextLine());
+
+        System.out.print("Informe a categoria do produto: ");
+        doc.getElementsByTagName("descricao").item(pos).setTextContent(leitura.nextLine());
+
+        System.out.print("Informe o codigo da categoria: ");
+        doc.getElementsByTagName("codigo").item(pos).setTextContent(leitura.nextLine());
+
+        XMLSerializer serializer = new XMLSerializer(
+                new FileOutputStream("produtos.xml"), new OutputFormat(doc, "iso-8859-1", true));
+        serializer.serialize(doc);
     }
 }
