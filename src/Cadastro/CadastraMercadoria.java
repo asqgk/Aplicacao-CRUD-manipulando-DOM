@@ -74,7 +74,7 @@ public class CadastraMercadoria {
     }
 
     private static void consultaProdutos(Document doc, Scanner leitura) throws IOException, TransformerException {
-        NodeList nodos, nodo1, nodo2;
+        NodeList nodos, nodo1, nodo2, nodo3;
         NamedNodeMap nodeID;
         int countProdutos = 0;
         System.out.println("-> Lista de produtos:");
@@ -107,6 +107,18 @@ public class CadastraMercadoria {
                         if (nodo2.item(k).getNodeName().equals("codigo")){
                             System.out.println("----> Codigo da categoria: " + nodo2.item(k).getFirstChild().getNodeValue());
                         }
+                        if (nodo2.item(k).getNodeName().equals("subcategoria")){
+                            nodo3 = nodo2.item(k).getChildNodes();
+                            System.out.println("----> Subcategoria");
+                            for (int l = 0; l < nodo3.getLength(); l++) {
+                                if (nodo3.item(l).getNodeName().equals("descricao")){
+                                    System.out.println("-----> Descricao da subcategoria: " + nodo3.item(l).getFirstChild().getNodeValue());
+                                }
+                                if (nodo3.item(l).getNodeName().equals("codigo")){
+                                    System.out.println("-----> Codigo da subcategoria: " + nodo3.item(l).getFirstChild().getNodeValue());
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -115,7 +127,7 @@ public class CadastraMercadoria {
     }
 
     private static void consultaProduto(Document doc, Scanner leitura) throws IOException, TransformerException {
-        NodeList nodos, nodo1, nodo2;
+        NodeList nodos, nodo1, nodo2, nodo3;
         NamedNodeMap nodeID;
         String buscaID, idIteracao;
         System.out.print("-> Informe o id do produto: ");
@@ -158,6 +170,18 @@ public class CadastraMercadoria {
                             if (nodo2.item(k).getNodeName().equals("codigo")){
                                 System.out.println("----> Codigo da categoria: " + nodo2.item(k).getFirstChild().getNodeValue());
                             }
+                            if (nodo2.item(k).getNodeName().equals("subcategoria")){
+                                nodo3 = nodo2.item(k).getChildNodes();
+                                System.out.println("----> Subcategoria");
+                                for (int l = 0; l < nodo3.getLength(); l++) {
+                                    if (nodo3.item(l).getNodeName().equals("descricao")){
+                                        System.out.println("-----> Descricao da subcategoria: " + nodo3.item(l).getFirstChild().getNodeValue());
+                                    }
+                                    if (nodo3.item(l).getNodeName().equals("codigo")){
+                                        System.out.println("-----> Codigo da subcategoria: " + nodo3.item(l).getFirstChild().getNodeValue());
+                                    }
+                                }
+                            }
                         }
                     }
                 }
@@ -166,7 +190,8 @@ public class CadastraMercadoria {
     }
 
     private static void adicionarProduto(Document doc, Scanner leitura) throws IOException, TransformerException {
-        Element produtos, produto, codigo_barras, descricao_produto, quantidade, preco_unitario, categoria, descricao_categoria, codigo_categoria;
+        Element produtos, produto, codigo_barras, descricao_produto, quantidade, preco_unitario, 
+                categoria, descricao_categoria, codigo_categoria, subcategoria, descricao_subcategoria, codigo_subcategoria;
 
         //obtem referencia do elemento produtos
         produtos = (Element) doc.getElementsByTagName("produtos").item(0);
@@ -205,7 +230,7 @@ public class CadastraMercadoria {
         produto.appendChild(preco_unitario);
         
         //define o elemento categoria e seus subelementos
-        categoria = doc.createElement("categoria"); 
+        categoria = doc.createElement("categoria");
         
         descricao_categoria = doc.createElement("descricao");
         System.out.print("-> Informe a qual categoria o produto pertence: ");
@@ -215,8 +240,22 @@ public class CadastraMercadoria {
         System.out.print("-> Informe o código da categoria: ");
         codigo_categoria.appendChild(doc.createTextNode(leitura.nextLine()));
         
+        //define o elemento subcategoria e seus subelementos
+        subcategoria = doc.createElement("subcategoria");
+
+        descricao_subcategoria = doc.createElement("descricao");
+        System.out.print("-> Informe a qual subcategoria o produto pertence: ");
+        descricao_subcategoria.appendChild(doc.createTextNode(leitura.nextLine()));
+        
+        codigo_subcategoria = doc.createElement("codigo");
+        System.out.print("-> Informe o código da subcategoria: ");
+        codigo_subcategoria.appendChild(doc.createTextNode(leitura.nextLine()));
+        
+        subcategoria.appendChild(descricao_subcategoria);
+        subcategoria.appendChild(codigo_subcategoria);
         categoria.appendChild(descricao_categoria);
         categoria.appendChild(codigo_categoria);
+        categoria.appendChild(subcategoria);
         produto.appendChild(categoria);
 
         //adiciona produto
