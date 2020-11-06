@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <produtos>
     <produto id="1">
-        <codigo_barras>312321312312121</codigo_barras>
-        <descricao>Caderno</descricao>
-        <quantidade>4</quantidade>
-        <preco_unitario>9.90</preco_unitario>
+        <codigo_barras>11111111111111</codigo_barras>
+        <descricao>Escolar</descricao>
+        <quantidade>10</quantidade>
+        <preco_unitario>5,50</preco_unitario>
         <categoria>
             <descricao>Escolar</descricao>
-            <codigo>6</codigo>
+            <codigo>5</codigo>
         </categoria>
     </produto>
     <!--Arquivo gerado por CadastraMercadoria.java-->
@@ -22,14 +22,14 @@
         </categoria>
     </produto>
     <!--Arquivo gerado por CadastraMercadoria.java-->
-    <produto id="3">
-        <codigo_barras>1212414124122141</codigo_barras>
-        <descricao>Mouse</descricao>
-        <quantidade>3</quantidade>
-        <preco_unitario>12.34</preco_unitario>
+    <produto id="2222222222">
+        <codigo_barras>222222222</codigo_barras>
+        <descricao>adsfads</descricao>
+        <quantidade>aadsf</quantidade>
+        <preco_unitario>fdf</preco_unitario>
         <categoria>
-            <descricao>Eletronicos</descricao>
-            <codigo>2</codigo>
+            <descricao>sdfsdf</descricao>
+            <codigo>fdf</codigo>
         </categoria>
     </produto>
     <!--Arquivo gerado por CadastraMercadoria.java-->
