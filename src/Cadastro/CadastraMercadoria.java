@@ -101,20 +101,20 @@ public class CadastraMercadoria {
                     nodo2 = nodo1.item(j).getChildNodes();
                     System.out.println("---> Categoria");
                     for (int k = 0; k < nodo2.getLength(); k++) {
-                        if (nodo2.item(k).getNodeName().equals("descricao")){
+                        if (nodo2.item(k).getNodeName().equals("descricao_categoria")){
                             System.out.println("----> Descricao da categoria: " + nodo2.item(k).getFirstChild().getNodeValue());
                         }
-                        if (nodo2.item(k).getNodeName().equals("codigo")){
+                        if (nodo2.item(k).getNodeName().equals("codigo_categoria")){
                             System.out.println("----> Codigo da categoria: " + nodo2.item(k).getFirstChild().getNodeValue());
                         }
                         if (nodo2.item(k).getNodeName().equals("subcategoria")){
                             nodo3 = nodo2.item(k).getChildNodes();
                             System.out.println("----> Subcategoria");
                             for (int l = 0; l < nodo3.getLength(); l++) {
-                                if (nodo3.item(l).getNodeName().equals("descricao")){
+                                if (nodo3.item(l).getNodeName().equals("descricao_subcategoria")){
                                     System.out.println("-----> Descricao da subcategoria: " + nodo3.item(l).getFirstChild().getNodeValue());
                                 }
-                                if (nodo3.item(l).getNodeName().equals("codigo")){
+                                if (nodo3.item(l).getNodeName().equals("codigo_subcategoria")){
                                     System.out.println("-----> Codigo da subcategoria: " + nodo3.item(l).getFirstChild().getNodeValue());
                                 }
                             }
@@ -126,6 +126,7 @@ public class CadastraMercadoria {
         System.out.println("\n-> Total de produtos encontrados: " + countProdutos);
     }
 
+    
     private static void consultaProduto(Document doc, Scanner leitura) throws IOException, TransformerException {
         NodeList nodos, nodo1, nodo2, nodo3;
         NamedNodeMap nodeID;
@@ -164,20 +165,20 @@ public class CadastraMercadoria {
                         nodo2 = nodo1.item(j).getChildNodes();
                         System.out.println("---> Categoria");
                         for (int k = 0; k < nodo2.getLength(); k++) {
-                            if (nodo2.item(k).getNodeName().equals("descricao")){
+                            if (nodo2.item(k).getNodeName().equals("descricao_categoria")){
                                 System.out.println("----> Descricao da categoria: " + nodo2.item(k).getFirstChild().getNodeValue());
                             }
-                            if (nodo2.item(k).getNodeName().equals("codigo")){
+                            if (nodo2.item(k).getNodeName().equals("codigo_categoria")){
                                 System.out.println("----> Codigo da categoria: " + nodo2.item(k).getFirstChild().getNodeValue());
                             }
                             if (nodo2.item(k).getNodeName().equals("subcategoria")){
                                 nodo3 = nodo2.item(k).getChildNodes();
                                 System.out.println("----> Subcategoria");
                                 for (int l = 0; l < nodo3.getLength(); l++) {
-                                    if (nodo3.item(l).getNodeName().equals("descricao")){
+                                    if (nodo3.item(l).getNodeName().equals("descricao_subcategoria")){
                                         System.out.println("-----> Descricao da subcategoria: " + nodo3.item(l).getFirstChild().getNodeValue());
                                     }
-                                    if (nodo3.item(l).getNodeName().equals("codigo")){
+                                    if (nodo3.item(l).getNodeName().equals("codigo_subcategoria")){
                                         System.out.println("-----> Codigo da subcategoria: " + nodo3.item(l).getFirstChild().getNodeValue());
                                     }
                                 }
@@ -232,22 +233,20 @@ public class CadastraMercadoria {
         //define o elemento categoria e seus subelementos
         categoria = doc.createElement("categoria");
         
-        descricao_categoria = doc.createElement("descricao");
+        descricao_categoria = doc.createElement("descricao_categoria");
         System.out.print("-> Informe a qual categoria o produto pertence: ");
-        descricao_categoria.appendChild(doc.createTextNode(leitura.nextLine()));
-        
-        codigo_categoria = doc.createElement("codigo");
+        descricao_categoria.appendChild(doc.createTextNode(leitura.nextLine()));        
+        codigo_categoria = doc.createElement("codigo_categoria");
         System.out.print("-> Informe o código da categoria: ");
         codigo_categoria.appendChild(doc.createTextNode(leitura.nextLine()));
         
         //define o elemento subcategoria e seus subelementos
         subcategoria = doc.createElement("subcategoria");
 
-        descricao_subcategoria = doc.createElement("descricao");
+        descricao_subcategoria = doc.createElement("descricao_subcategoria");
         System.out.print("-> Informe a qual subcategoria o produto pertence: ");
-        descricao_subcategoria.appendChild(doc.createTextNode(leitura.nextLine()));
-        
-        codigo_subcategoria = doc.createElement("codigo");
+        descricao_subcategoria.appendChild(doc.createTextNode(leitura.nextLine()));        
+        codigo_subcategoria = doc.createElement("codigo_subcategoria");
         System.out.print("-> Informe o código da subcategoria: ");
         codigo_subcategoria.appendChild(doc.createTextNode(leitura.nextLine()));
         
@@ -269,6 +268,7 @@ public class CadastraMercadoria {
         serializer.serialize(doc);
     }
 
+    
     private static void removerProduto(Document doc, Scanner leitura) throws IOException, TransformerException {
 
         System.out.print("-> Informe o ID do produto: ");
@@ -299,8 +299,8 @@ public class CadastraMercadoria {
                 new FileOutputStream("produtos.xml"), new OutputFormat(doc, "iso-8859-1", true));
         serializer.serialize(doc);
         System.out.println("-> Produto removido com sucesso");
-    }
-
+    }    
+    
     private static void modificarProduto(Document doc) throws TransformerException, IOException{
         Scanner leitura = new Scanner(System.in);
         int pos = -1;
@@ -325,22 +325,24 @@ public class CadastraMercadoria {
 
         System.out.print("Informe o codigo de barras do produto: ");
         doc.getElementsByTagName("codigo_barras").item(pos).setTextContent(leitura.nextLine());
-
         System.out.print("Informe a descrição do produto: ");
         doc.getElementsByTagName("descricao").item(pos).setTextContent(leitura.nextLine());
-
         System.out.print("Informe a quantidade do produto: ");
         doc.getElementsByTagName("quantidade").item(pos).setTextContent(leitura.nextLine());
-
         System.out.print("Informe o preço unitário do produto: ");
         doc.getElementsByTagName("preco_unitario").item(pos).setTextContent(leitura.nextLine());
 
         System.out.print("Informe a categoria do produto: ");
-        doc.getElementsByTagName("descricao").item(pos).setTextContent(leitura.nextLine());
-
+        doc.getElementsByTagName("descricao_categoria").item(pos).setTextContent(leitura.nextLine());        
         System.out.print("Informe o codigo da categoria: ");
-        doc.getElementsByTagName("codigo").item(pos).setTextContent(leitura.nextLine());
+        doc.getElementsByTagName("codigo_categoria").item(pos).setTextContent(leitura.nextLine());
+        
+        System.out.print("Informe a subcategoria do produto: ");
+        doc.getElementsByTagName("descricao_subcategoria").item(pos).setTextContent(leitura.nextLine()); 
+        System.out.print("Informe o código da subcategoria do produto: ");
+        doc.getElementsByTagName("codigo_subcategoria").item(pos).setTextContent(leitura.nextLine()); 
 
+        
         XMLSerializer serializer = new XMLSerializer(
                 new FileOutputStream("produtos.xml"), new OutputFormat(doc, "iso-8859-1", true));
         serializer.serialize(doc);

@@ -1,68 +1,32 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <produtos>
     <produto id="1">
-<<<<<<< HEAD
-        <codigo_barras>11111111111111</codigo_barras>
-        <descricao>Escolar</descricao>
-        <quantidade>10</quantidade>
-        <preco_unitario>5,50</preco_unitario>
+        <codigo_barras>mod</codigo_barras>
+        <descricao>mod</descricao>
+        <quantidade>mod</quantidade>
+        <preco_unitario>mod</preco_unitario>
         <categoria>
-            <descricao>Escolar</descricao>
-            <codigo>5</codigo>
-=======
-        <codigo_barras>221312321412421421124</codigo_barras>
-        <descricao>Caderno</descricao>
-        <quantidade>3</quantidade>
-        <preco_unitario>8.90</preco_unitario>
-        <categoria>
-            <descricao>Escolar</descricao>
-            <codigo>3</codigo>
+            <descricao_categoria>mod</descricao_categoria>
+            <codigo_categoria>mod</codigo_categoria>
             <subcategoria>
-                <descricao>NA</descricao>
-                <codigo>4</codigo>
+                <descricao_subcategoria>mod</descricao_subcategoria>
+                <codigo_subcategoria>mod</codigo_subcategoria>
             </subcategoria>
->>>>>>> upstream/main
         </categoria>
     </produto>
     <!--Arquivo gerado por CadastraMercadoria.java-->
-    <produto id="2">
-        <codigo_barras>312214124124</codigo_barras>
-        <descricao>Banana</descricao>
-        <quantidade>2</quantidade>
-        <preco_unitario>3.0</preco_unitario>
+    <produto id="3">
+        <codigo_barras>9876</codigo_barras>
+        <descricao>pastel</descricao>
+        <quantidade>5</quantidade>
+        <preco_unitario>10</preco_unitario>
         <categoria>
+            <descricao_categoria>salgados</descricao_categoria>
+            <codigo_categoria>5</codigo_categoria>
             <subcategoria>
-                <descricao>Frutas</descricao>
-                <codigo>84</codigo>
+                <descricao_subcategoria>festas</descricao_subcategoria>
+                <codigo_subcategoria>10</codigo_subcategoria>
             </subcategoria>
-            <descricao>Alimento</descricao>
-            <codigo>1</codigo>
-        </categoria>
-    </produto>
-    <!--Arquivo gerado por CadastraMercadoria.java-->
-    <produto id="2222222222">
-        <codigo_barras>222222222</codigo_barras>
-        <descricao>adsfads</descricao>
-        <quantidade>aadsf</quantidade>
-        <preco_unitario>fdf</preco_unitario>
-        <categoria>
-            <descricao>sdfsdf</descricao>
-            <codigo>fdf</codigo>
-        </categoria>
-    </produto>
-    <!--Arquivo gerado por CadastraMercadoria.java-->
-    <produto id="4">
-        <codigo_barras>213124124124211</codigo_barras>
-        <descricao>Teclado</descricao>
-        <quantidade>2</quantidade>
-        <preco_unitario>32.23</preco_unitario>
-        <categoria>
-            <subcategoria>
-                <descricao>Computador</descricao>
-                <codigo>98</codigo>
-            </subcategoria>
-            <descricao>Eletronicos</descricao>
-            <codigo>2</codigo>
         </categoria>
     </produto>
     <!--Arquivo gerado por CadastraMercadoria.java-->
